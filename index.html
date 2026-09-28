@@ -498,8 +498,7 @@ footer{
   </h2>
 
   <p class="section-sub">
-    Uploaded result sheet-ൽ നൽകിയിരിക്കുന്ന നിലവിലെ
-    total points അടിസ്ഥാനമാക്കി.
+    Completed results-ൽ മാത്രം 1st = 5, 2nd = 3, 3rd = 1 എന്ന രീതിയിൽ auto-calculated.
   </p>
 
   <div class="score-grid">
@@ -525,11 +524,6 @@ footer{
       <span>YELLOW • 4th</span>
     </div>
 
-  </div>
-
-  <div class="note" style="margin-top:15px">
-    പുതിയ 26 Sep result sheet tally ചേർത്ത ശേഷം: GREEN +37, BLUE +19, RED +7, YELLOW +9.
-    അതനുസരിച്ച് നിലവിലെ total: GREEN 94, BLUE 52, RED 48, YELLOW 41.
   </div>
 
 </div>
@@ -586,40 +580,15 @@ footer{
 
 
 <!-- =========================
-     LATEST PARTICIPANT LISTS
-========================= -->
-
-<section>
-<div class="container">
-  <h2 class="section-title">📋 Latest Participant Details</h2>
-  <p class="section-sub">26 Sep 2026 sheets-ൽ നൽകിയിരിക്കുന്ന participant / house details.</p>
-  <div class="grid">
-    <div class="card"><h3>മോണോ ആക്ട് UP</h3><p>Dileep P — 7D — RED<br>Nisar PK — 6D — RED</p></div>
-    <div class="card"><h3>മോണോ ആക്ട് HS</h3><p>10E — GREEN<br>8G — RED</p></div>
-    <div class="card"><h3>മോണോ ആക്ട് HSS</h3><p>Al Aiman — C2 — BLUE</p></div>
-    <div class="card"><h3>ചിത്രരചന ജലച്ചായം UP</h3><p>Sana — 5D — GREEN (A)<br>Kavya Kamal — 7D — RED (B)<br>Abhishma P.S — 7E — GREEN (C)</p></div>
-    <div class="card"><h3>ചിത്രരചന ജലച്ചായം HS</h3><p>Aiswarya P.D — GREEN (A)</p></div>
-    <div class="card"><h3>English Recitation UP</h3><p>Alvina Rose C Anto — 7D — GREEN<br>Neli Treesa Elizabeth — 5E — RED<br>Juvana Rose — GREEN</p></div>
-    <div class="card"><h3>English Recitation HS</h3><p>Ananthakrishnan V.K — 9C — GREEN<br>Roseleena — 10E — GREEN<br>Elvya Theresa — 8H — RED</p></div>
-  </div>
-</div>
-</section>
-
-
-<!-- =========================
      GROUP RANKING
 ========================= -->
 
 <section>
 <div class="container">
   <h2 class="section-title">🥇🥈🥉 Current Group Ranking</h2>
-  <p class="section-sub">26 Sep 2026 result tally ചേർത്ത ശേഷമുള്ള current total points.</p>
-  <div class="grid">
-    <div class="card"><span class="tag done">🥇 1st GROUP</span><h3>GREEN</h3><p><strong style="font-size:30px;color:var(--green)">94 points</strong></p></div>
-    <div class="card"><span class="tag">🥈 2nd GROUP</span><h3>BLUE</h3><p><strong style="font-size:30px;color:var(--blue)">52 points</strong></p></div>
-    <div class="card"><span class="tag">🥉 3rd GROUP</span><h3>RED</h3><p><strong style="font-size:30px;color:var(--red)">48 points</strong></p></div>
-  </div>
-  <div class="note" style="margin-top:15px">4th: YELLOW — 41 points.</div>
+  <p class="section-sub">Completed results-ൽ നൽകിയിരിക്കുന്ന points ചേർത്ത ശേഷമുള്ള current total.</p>
+  <div id="groupRanking" class="grid"></div>
+  <div id="fourthGroup" class="note" style="margin-top:15px"></div>
 </div>
 </section>
 
@@ -1141,9 +1110,17 @@ const upcoming = [
    PROGRAM LOGIC
 ========================= */
 
+const completedNames = new Set(
+  completed.map(x => x.name.trim().toLowerCase())
+);
+
+const filteredUpcoming = upcoming.filter(
+  name => !completedNames.has(name.trim().toLowerCase())
+);
+
 const data=[
   ...completed.map(x=>({...x,status:"done"})),
-  ...upcoming.map(
+  ...filteredUpcoming.map(
     (name,i)=>({
       id:100+i,
       name,
@@ -1158,6 +1135,56 @@ const search=document.getElementById("search");
 const details=document.getElementById("details");
 
 let filter="all";
+
+
+function updateGroupRanking(){
+
+  const totals={GREEN:0,BLUE:0,RED:0,YELLOW:0};
+  const rankPoints={"1st":5,"2nd":3,"3rd":1};
+
+  completed.forEach(x=>{
+    x.places.forEach(p=>{
+      const rank=(p[0]||"").trim();
+      const house=(p[2]||"").split(" • ")[0].trim();
+
+      if(
+        Object.prototype.hasOwnProperty.call(totals,house) &&
+        Object.prototype.hasOwnProperty.call(rankPoints,rank)
+      ){
+        totals[house]+=rankPoints[rank];
+      }
+    });
+  });
+
+  const order=Object.entries(totals).sort((a,b)=>b[1]-a[1]);
+  const medals=["🥇","🥈","🥉",""];
+  const ranking=document.getElementById("groupRanking");
+
+  ranking.innerHTML=order.slice(0,3).map((item,i)=>`
+    <div class="card">
+      <span class="tag ${i===0?"done":""}">${medals[i]} ${i+1} GROUP</span>
+      <h3>${item[0]}</h3>
+      <p><strong style="font-size:30px">${item[1]} points</strong></p>
+    </div>
+  `).join("");
+
+  const fourth=order[3];
+  document.getElementById("fourthGroup").textContent=
+    fourth ? `4th: ${fourth[0]} — ${fourth[1]} points.` : "";
+
+  // Update the main Current House Score cards too.
+  const scoreCards=document.querySelectorAll("#score .score");
+  order.forEach((item,i)=>{
+    if(scoreCards[i]){
+      const strong=scoreCards[i].querySelector("strong");
+      const span=scoreCards[i].querySelector("span");
+      if(strong) strong.textContent=item[1];
+      if(span) span.textContent=`${item[0]} • ${i+1}${i===0?"st":i===1?"nd":i===2?"rd":"th"}`;
+    }
+  });
+}
+
+updateGroupRanking();
 
 
 function render(){
@@ -1195,7 +1222,7 @@ function render(){
         <p>
           ${
             x.status==="done"
-            ?"Result available — tap to view"
+            ?"Completed — tap to view"
             :"Program name only — result not yet available"
           }
         </p>
@@ -1388,4 +1415,3 @@ document.addEventListener(
 
 </body>
 </html>
-

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SARGATHIRAM SCHOOL KALOLSAVAM GHSS PANAMARAM</title>
+<title>SARGATHIRAM SCHOOL KALOLSAVAM 2026 - GHSS PANAMARAM</title>
 
 <style>
 :root{
@@ -31,7 +31,7 @@ body{
   /* BACKGROUND IMAGE EMBEDDED */
   background-image:
     linear-gradient(rgba(10,5,20,.42),rgba(10,5,20,.52)),
-    url("/home/ghsspnm/Downloads/ChatGPT Image Sep 25, 2026, 10_50_59 PM.png");
+    url("bg.png");
 
   background-size:cover;
   background-position:center top;
@@ -498,32 +498,14 @@ footer{
   </h2>
 
   <p class="section-sub">
-    Completed results-ൽ മാത്രം 1st = 5, 2nd = 3, 3rd = 1 എന്ന രീതിയിൽ auto-calculated.
+    Uploaded result sheet-ൽ നൽകിയിരിക്കുന്ന നിലവിലെ
+    total points അടിസ്ഥാനമാക്കി.
   </p>
 
-  <div class="score-grid">
+  <div class="score-grid" id="scoreGrid"></div>
 
-    <div class="score first">
-      <div class="crown">👑</div>
-      <strong>94</strong>
-      <span>GREEN • 1st</span>
-    </div>
-
-    <div class="score">
-      <strong>48</strong>
-      <span>RED • 3rd</span>
-    </div>
-
-    <div class="score">
-      <strong>52</strong>
-      <span>BLUE • 2nd</span>
-    </div>
-
-    <div class="score">
-      <strong>41</strong>
-      <span>YELLOW • 4th</span>
-    </div>
-
+  <div class="note" style="margin-top:15px">
+    Point system: Individual — A grade/1st 5, B grade 3, C grade 1 • Group — 1st 10, B grade 5, C grade 3. Result sheet-ലെ points ചേർത്ത് സ്വയം കണക്കാക്കുന്നതാണ്.
   </div>
 
 </div>
@@ -562,6 +544,10 @@ footer{
       ⏳ Upcoming
     </button>
 
+    <button class="filter" data-filter="cancel">
+      ❌ Cancelled
+    </button>
+
     <input
       id="search"
       class="search"
@@ -586,9 +572,8 @@ footer{
 <section>
 <div class="container">
   <h2 class="section-title">🥇🥈🥉 Current Group Ranking</h2>
-  <p class="section-sub">Completed results-ൽ നൽകിയിരിക്കുന്ന points ചേർത്ത ശേഷമുള്ള current total.</p>
-  <div id="groupRanking" class="grid"></div>
-  <div id="fourthGroup" class="note" style="margin-top:15px"></div>
+  <p class="section-sub">Completed results-ൽ നിന്നുള്ള current total points.</p>
+  <div class="grid" id="rankGrid"></div>
 </div>
 </section>
 
@@ -714,295 +699,443 @@ const completed = [
 
 {
 id:1,
-name:"ചിത്രരചന പെൻസിൽ — UP",
+name:"ചിത്രരചന പെൻസിൽ UP",
 cat:"Off Stage",
 places:[
-["1st","ANGEL ELIZABATH","RED • 5 points"],
-["2nd","AYISHA MEHARIN K","RED • 5 points"],
-["3rd","PRARTHANA VR","YELLOW • 3 points"],
-["3rd","RINHA YASMIN TP","GREEN • 3 points"],
-["","PADHYA KR","YELLOW • 3 points"],
-["","FATHIMA ZIYA","RED • 1 point"]
+["1st","ANGEL ELIZABATH (7D)","RED • 5 points"],
+["2nd","AYISHA MEHARIN K (7B)","RED • 5 points"],
+["3rd","PRARTHANA VR (5D)","YELLOW • 3 points"],
+["","RINHA YASMIN TP (7B)","GREEN • 3 points"],
+["","PADHYA KR (5A)","YELLOW • 3 points"],
+["","FATHIMA ZIYA (6D)","RED • 1 point"]
 ]
 },
 
 {
 id:2,
-name:"ചിത്രരചന പെൻസിൽ — HS",
+name:"ചിത്രരചന പെൻസിൽ HS",
 cat:"Off Stage",
 places:[
-["1st","ROSLEENA","GREEN • 5 points"],
-["2nd","SANA FATHIMA","BLUE • 5 points"],
-["3rd","HADIYA FATHIMA","RED • 3 points"],
-["","ANSIYA SHERIN NA","YELLOW • 3 points"],
-["","ANDRIYA ALPHONSA","YELLOW • 1 point"]
+["1st","SANA FATHIMA (9B)","BLUE • 5 points"],
+["2nd","HADIYA FATHIMA (9E)","RED • 3 points"],
+["3rd","ANSIYA SHERIN NA (10B)","YELLOW • 3 points"],
+["","ANDRIYA ALPHONSA (10E)","YELLOW • 1 point"]
 ]
 },
 
 {
 id:3,
-name:"ചിത്രരചന ജലച്ചായം — UP",
+name:"ചിത്രരചന ജലച്ചായം UP",
 cat:"Off Stage",
 places:[
-["1st","ANGEL ELIZABATH","RED • 5 points"],
-["2nd","FATHIMA SIYA","RED • 3 points"],
-["3rd","ANGEL NAYAK","YELLOW • 3 points"]
+["1st","ANGEL ELIZABATH (7D)","RED • 5 points"],
+["2nd","FATHIMA SIYA (6D)","RED • 3 points"],
+["3rd","ANGEL NAYAK (7E)","YELLOW • 3 points"]
 ]
 },
 
 {
 id:4,
-name:"ചിത്രരചന ജലച്ചായം — HS",
+name:"ചിത്രരചന ജലച്ചായം HS",
 cat:"Off Stage",
 places:[
-["1st","ANSIYA SHERIN NA","YELLOW • 5 points"],
-["2nd","MIDHUN KRISHNA","YELLOW • 3 points"],
-["3rd","RANA SHERIN","GREEN • 3 points"]
+["1st","ANSIYA SHERIN NA (10B)","YELLOW • 5 points"],
+["2nd","MIDHUN KRISHNA (9E)","YELLOW • 3 points"],
+["3rd","RANA SHERIN (10B)","GREEN • 3 points"]
 ]
 },
 
 {
 id:5,
-name:"കാർട്ടൂൺ — HS",
+name:"കാർട്ടൂൺ HS",
 cat:"Off Stage",
 places:[
-["1st","NISHIKANTHA RAJESH","RED • 5 points"],
-["2nd","FATHIMA SHAHADIYA","GREEN • 1 point"],
-["3rd","SHAHANA SHERIN","YELLOW • 1 point"]
+["1st","NISHIKANTHA RAJESH (9F)","RED • 5 points"],
+["2nd","FATHIMA SHAHADIYA (9F)","GREEN • 1 point"],
+["3rd","SHAHANA SHERIN (9F)","YELLOW • 1 point"]
 ]
 },
 
 {
 id:6,
-name:"കഥാരചന മലയാളം — UP",
+name:"കഥാരചന മലയാളം UP",
 cat:"Off Stage",
 places:[
-["1st","AYISHA NOURIN","BLUE • 5 points"],
-["2nd","HRIDHYA GOVIND","BLUE • 5 points"],
-["3rd","AYISHATHUL LAMIYA","YELLOW • 3 points"],
-["","FEBITHA NASRIN","RED • 1 point"]
+["1st","AYISHA NOURIN (7D)","BLUE • 5 points"],
+["2nd","HRIDHYA GOVIND (7D)","BLUE • 5 points"],
+["3rd","AYISHATHUL LAMIYA (5E)","YELLOW • 3 points"],
+["","FEBITHA NASRIN (7D)","RED • 1 point"]
 ]
 },
 
 {
 id:7,
-name:"കഥാരചന ഹിന്ദി — UP",
+name:"കഥാരചന ഹിന്ദി UP",
 cat:"Off Stage",
 places:[
-["1st","JOVANNAROSE MARIA","GREEN • 3 points"],
-["2nd","AMMAR","BLUE • 1 point"],
-["3rd","HAMZA","RED • 1 point"]
+["1st","JOVANNAROSE MARIA (7D)","GREEN • 3 points"],
+["2nd","AMMAR (7D)","BLUE • 1 point"],
+["3rd","HAMZA (7D)","RED • 1 point"]
 ]
 },
 
 {
 id:8,
-name:"കഥാരചന മലയാളം — HS",
+name:"കഥാരചന മലയാളം HS",
 cat:"Off Stage",
 places:[
-["1st","NISHIKANTHA RAJESH","RED • 1 point"],
-["2nd","HIBA FATHIMA","YELLOW • 1 point"],
-["3rd","FIBA FATHIMA","BLUE • 1 point"]
+["1st","NISHIKANTHA RAJESH (9F)","RED • 1 point"],
+["2nd","HIBA FATHIMA (10E)","YELLOW • 1 point"],
+["3rd","FIBA FATHIMA (10D)","BLUE • 1 point"]
 ]
 },
 
 {
 id:9,
-name:"കഥാരചന ഇംഗ്ലീഷ് — HS",
+name:"കഥാരചന ഇംഗ്ലീഷ് HS",
 cat:"Off Stage",
 places:[
-["1st","HIDA NASRIN","GREEN • 5 points"],
-["2nd","SREELAKSHMI M","GREEN • 3 points"],
-["3rd","SIVANI BABU","GREEN • 3 points"],
-["","ANANYA KA","GREEN • 1 point"],
-["","SADHIKA M","GREEN • 1 point"]
+["1st","HIDA NASRIN (8G)","GREEN • 5 points"],
+["2nd","SREELAKSHMI M (10F)","GREEN • 3 points"],
+["3rd","SIVANI BABU (10F)","GREEN • 3 points"],
+["","ANANYA KA (8G)","GREEN • 1 point"],
+["","SADHIKA M (10F)","GREEN • 1 point"]
 ]
 },
 
 {
 id:10,
-name:"കവിതാരചന മലയാളം — UP",
+name:"കവിതാരചന മലയാളം UP",
 cat:"Off Stage",
 places:[
-["1st","HRIDHYA GOVIND","BLUE • 3 points"],
-["2nd","SHAZANA","GREEN • 1 point"],
-["3rd","SHEHRZADA","RED • 1 point"]
+["1st","HRIDHYA GOVIND (7D)","BLUE • 3 points"],
+["2nd","SHAZANA (7E)","GREEN • 1 point"],
+["3rd","SHEHRZADA (7E)","RED • 1 point"]
 ]
 },
 
 {
 id:11,
-name:"കവിതാരചന മലയാളം — HS",
+name:"കവിതാരചന മലയാളം HS",
 cat:"Off Stage",
 places:[
 ["1st","ANANYA","GREEN • 3 points"],
-["2nd","ANGEL PAUL","RED • 3 points"],
-["3rd","AYISHA THANHANIYA","BLUE • 1 point"]
+["2nd","ANGEL PAUL (10E)","RED • 3 points"],
+["3rd","AYISHA THANHANIYA (10F)","BLUE • 1 point"]
 ]
 },
 
 {
 id:12,
-name:"കഥാരചന ഹിന്ദി — HS",
+name:"കഥാരചന ഹിന്ദി HS",
 cat:"Off Stage",
 places:[
-["1st","MUHAMMED ALI","GREEN • 3 points"],
-["2nd","MUHAMMED RAHMAN","GREEN • 3 points"]
+["1st","MUHAMMED ALI (9F)","GREEN • 3 points"],
+["2nd","MUHAMMED RAHMAN (9F)","GREEN • 3 points"]
 ]
 },
 
 {
 id:13,
-name:"കവിതാരചന ഇംഗ്ലീഷ് — HS",
+name:"കവിതാരചന ഇംഗ്ലീഷ് HS",
 cat:"Off Stage",
 places:[
-["1st","HIDA NASRIN","GREEN • 5 points"],
-["2nd","SREELAKSHMI M","GREEN • 5 points"],
-["3rd","SUBHASREE","BLUE • 3 points"],
-["","SADHIKA M","GREEN • 3 points"],
-["","AGNAYA","RED • 1 point"],
-["","ANANYA KA","GREEN • 1 point"]
+["1st","HIDA NASRIN (8G)","GREEN • 5 points"],
+["2nd","SREELAKSHMI M (10F)","GREEN • 5 points"],
+["3rd","SUBHASREE (8H)","BLUE • 3 points"],
+["","SADHIKA M (10F)","GREEN • 3 points"],
+["","AGNAYA (9F)","RED • 1 point"],
+["","ANANYA KA (8G)","GREEN • 1 point"]
 ]
 },
 
 {
 id:14,
-name:"ഉപന്യാസം മലയാളം — HS",
+name:"ഉപന്യാസം മലയാളം HS",
 cat:"Off Stage",
 places:[
-["1st","FIDA FATHIMA","BLUE • 5 points"],
-["2nd","ANANDAKRISHNAN VK","GREEN • 5 points"],
-["3rd","DILNA SAMAD","BLUE • 3 points"],
-["","SAJITHA","YELLOW • 3 points"],
-["","AMRUTHA K","BLUE • 1 point"],
-["","HANNA FATHIMA","RED • 1 point"],
-["","NIDHIN KRISHNA","YELLOW • 1 point"]
+["1st","FIDA FATHIMA (10D)","BLUE • 5 points"],
+["2nd","ANANDAKRISHNAN VK (9C)","GREEN • 5 points"],
+["3rd","DILNA SAMAD (10F)","BLUE • 3 points"],
+["","SAJITHA (9E)","YELLOW • 3 points"],
+["","AMRUTHA K (10D)","BLUE • 1 point"],
+["","HANNA FATHIMA (10D)","RED • 1 point"],
+["","NIDHIN KRISHNA (9F)","YELLOW • 1 point"]
 ]
 },
 
 {
 id:15,
-name:"കവിതാരചന ഹിന്ദി — HS",
+name:"കവിതാരചന ഹിന്ദി HS",
 cat:"Off Stage",
 places:[
-["1st","MUHAMMED SHAFIGUL S","RED • 5 points"],
-["2nd","ARSHAD NIZAMI","YELLOW • 1 point"],
-["3rd","ZAHEEN ALI","YELLOW • 1 point"]
+["1st","MUHAMMED SHAFIGUL S (9F)","RED • 5 points"],
+["2nd","ARSHAD NIZAMI (9F)","YELLOW • 1 point"],
+["3rd","ZAHEEN ALI (9F)","YELLOW • 1 point"]
 ]
 },
 
 {
 id:16,
-name:"പ്രസംഗം — മലയാളം HSS",
-cat:"Latest result • 26 Sep 2026",
+name:"പ്രസംഗം മലയാളം UP",
+cat:"On Stage",
 places:[
-["1st","KRISHNA PRIYA","BLUE • 5 points"],
-["2nd","SHIBINA P S","RED • 3 points"],
-["3rd","POOJA BIJU","YELLOW • 1 point"]
+["1st","LAMIYA P (7D)","RED • 5 points"],
+["2nd","MUHAMMED HISHAL FADHI (5E)","BLUE • 3 points"],
+["3rd","ELVIN TOM CP (6E)","GREEN • 1 point"]
 ]
 },
 
 {
 id:17,
-name:"CARTOON HSS",
-cat:"Latest result • 26 Sep 2026",
+name:"പ്രസംഗം മലയാളം HS",
+cat:"On Stage",
 places:[
-["1st","MUHAMMED FASIL","YELLOW • 5 points"],
-["2nd","EMMANUEL C J","GREEN • 3 points"]
+["1st","ANANTHAKRISHNAN VK (9C)","GREEN • 5 points"],
+["2nd","ROSLEENA (10E)","GREEN • 3 points"],
+["3rd","RIYA MEHARIN NK (8H)","YELLOW • 1 point"]
 ]
 },
 
 {
 id:18,
-name:"കഥാരചന — ഹിന്ദി HSS",
-cat:"Latest result • 26 Sep 2026",
+name:"പ്രസംഗം ഇംഗ്ലീഷ് UP",
+cat:"On Stage",
 places:[
-["1st","AISWARYA P A","GREEN • 5 points"],
-["2nd","LEHIN RASHEED","BLUE • 3 points"],
-["3rd","MUHAMMED MEHABISH","GREEN • 1 point"]
+["1st","LAMIYA P (7D)","RED • 5 points"],
+["2nd","JUVANA (7D)","GREEN • 3 points"],
+["3rd","RISHAL PK (6D)","GREEN • 1 point"]
 ]
 },
 
 {
 id:19,
-name:"പദ്യംചൊല്ലൽ — മലയാളം HSS",
-cat:"Latest result • 26 Sep 2026",
+name:"പ്രസംഗം ഇംഗ്ലീഷ് HS",
+cat:"On Stage",
 places:[
-["1st","AISWARYA P A","GREEN • 5 points"],
-["2nd","MUHAMMED MEHABISH","GREEN • 3 points"]
+["1st","ROSLEENA (10E)","GREEN • 5 points"],
+["2nd","NILA PS (8G)","RED • 3 points"]
 ]
 },
 
 {
 id:20,
-name:"കഥാരചന — മലയാളം HSS",
-cat:"Latest result • 26 Sep 2026",
+name:"പ്രസംഗം ഹിന്ദി UP",
+cat:"On Stage",
 places:[
-["1st","RINSHA P L","GREEN • 5 points"],
-["2nd","ALIYA FATHIMA M","GREEN • 3 points"],
-["3rd","FATHIMATHUL MISRIYA","RED • 1 point"]
+["1st","MUHAMMED AMAR (7D)","BLUE • 5 points"],
+["2nd","RUDRAPRASAD (7D)","GREEN • 3 points"]
 ]
 },
 
 {
 id:21,
-name:"പദ്യംചൊല്ലൽ — മലയാളം HSS",
-cat:"Latest result • 26 Sep 2026",
+name:"പദ്യംചൊല്ലൽ മലയാളം UP",
+cat:"On Stage",
 places:[
-["1st","KRISHNA PRIYA","BLUE • 5 points"]
+["1st","SANA AK (5D)","GREEN • 5 points"],
+["2nd","KAVYA KAMAL (7A)","RED • 3 points"],
+["3rd","ABHISHMA PS (7E)","GREEN • 1 point"]
 ]
 },
 
 {
 id:22,
-name:" കഥാരചന — ARABI HSS",
-cat:"Latest result • 26 Sep 2026",
+name:"പദ്യംചൊല്ലൽ മലയാളം HS",
+cat:"On Stage",
 places:[
-["1st","AMREEN FAZAN","GREEN • 5 points"]
+["1st","SAFA AK (8A)","YELLOW • 5 points"],
+["2nd","AJINAS AT (9B)","YELLOW • 3 points"],
+["3rd","NIVIN KRISHNA (8G)","BLUE • 1 point"]
 ]
 },
 
 {
 id:23,
-name:"നാടോടിനൃത്തം (സിംഗിൾ) HS",
-cat:"Latest result • 26 Sep 2026",
+name:"പദ്യംചൊല്ലൽ ഇംഗ്ലീഷ് UP",
+cat:"On Stage",
 places:[
-["1st","SHIVAPRIYA","RED • 5 points"],
-["2nd","SREELAKSHMI","RED • 3 points"],
-["3rd","SANA FATHIMA","RED • 1 point"]
+["1st","ALVINA ROSE C ANTO (7D)","GREEN • 5 points"],
+["2nd","NELI TREESA ELIZABATH (5E)","RED • 3 points"],
+["3rd","JUVANA ROSE","GREEN • 1 point"]
 ]
 },
 
 {
 id:24,
-name:"പദ്യംചൊല്ലൽ ഹിന്ദി HS",
-cat:"Latest result • 26 Sep 2026",
+name:"പദ്യംചൊല്ലൽ ഇംഗ്ലീഷ് HS",
+cat:"On Stage",
 places:[
-["1st","MUHAMMED OWAISH","RED • 5 points"],
-["2nd","SUBHASREE","BLUE • 3 points"]
+["1st","ANANDAKRISHNAN VK (9C)","GREEN • 5 points"],
+["2nd","ROSLEENA (10E)","GREEN • 3 points"],
+["3rd","ELVIYA THERESA (8H)","RED • 1 point"]
 ]
 },
 
 {
 id:25,
 name:"പദ്യംചൊല്ലൽ ഹിന്ദി UP",
-cat:"Latest result • 26 Sep 2026",
+cat:"On Stage",
 places:[
-["1st","ANGEL ELIZABETH","RED • 5 points"],
-["2nd","MUHAMMED AMMAR","BLUE • 3 points"],
-["2nd","GULAM MURTHAS","RED • 3 points"],
-["3rd","ALIYA BISORA","BLUE • 1 point"]
+["1st","ANGEL ELIZABETH (7D)","RED • 5 points"],
+["2nd","GULAM MURTHAS (5D)","RED • 3 points"],
+["2nd","MUHAMMED AMAR (7D)","BLUE • 3 points"],
+["3rd","HIYA BISORA (7D)","BLUE • 1 point"]
 ]
 },
 
 {
 id:26,
-name:"പദ്യംചൊല്ലൽ മലയാളം UP",
-cat:"Latest result • 26 Sep 2026",
+name:"പദ്യംചൊല്ലൽ ഹിന്ദി HS",
+cat:"On Stage",
 places:[
-["1st","SANA AK","GREEN • 5 points"],
-["2nd","KAVYA KAMAL","RED • 3 points"],
-["3rd","ABISHMA PS","GREEN • 1 point"]
+["1st","MUHAMMED UWASHI (8H)","RED • 5 points"],
+["2nd","SUBHASREE (8H)","BLUE • 3 points"],
+["3rd","ANDRIYA ALPHONZA (10E)","YELLOW • 1 point"]
+]
+},
+
+{
+id:27,
+name:"മാപ്പിളപ്പാട്ട് UP",
+cat:"On Stage",
+places:[
+["1st","AYISHA LAMIYA (7E)","GREEN • 5 points"],
+["2nd","ZULAIFAH K (5E)","BLUE • 3 points"],
+["3rd","SANA AK (5D)","GREEN • 1 point"]
+]
+},
+
+{
+id:28,
+name:"മാപ്പിളപ്പാട്ട് HS ആൺ",
+cat:"On Stage",
+places:[
+["1st","MUHAMMED SUFIYAN (8A)","GREEN • 5 points"],
+["2nd","AJINAS A T (9B)","YELLOW • 3 points"],
+["2nd","MUHAMMED NABEEL K (9B)","YELLOW • 3 points"],
+["3rd","HADI AMAN (9E)","RED • 1 point"]
+]
+},
+
+{
+id:29,
+name:"മാപ്പിളപ്പാട്ട് HS പെൺ",
+cat:"On Stage",
+places:[
+["1st","SAFA.AK (8A)","YELLOW • 5 points"],
+["2nd","SHIDA FATHIMA S (10F)","GREEN • 3 points"],
+["2nd","NASHIHA FATHIMA (9F)","BLUE • 1 point"]
+]
+},
+
+{
+id:30,
+name:"കഥാപ്രസംഗം HS",
+cat:"On Stage",
+places:[
+["1st","SREELAKSHMI M (10F)","GREEN • 5 points"],
+["2nd","SIVANI BABU (10F)","GREEN • 3 points"]
+]
+},
+
+{
+id:31,
+name:"സംഘഗാനം UP",
+cat:"On Stage",
+group:true,
+places:[
+["1st","NILA SUDHIR (6E)","GREEN • 10 points"],
+["2nd","HRIDHYA (7D)","BLUE • 5 points"],
+["3rd","AFREEN P (7A)","YELLOW • 3 points"]
+]
+},
+
+{
+id:32,
+name:"സംഘഗാനം HS",
+cat:"On Stage",
+group:true,
+places:[
+["1st","ROSLEENA (10E)","GREEN • 10 points"],
+["2nd","KEERTHI SURESH K (9F)","YELLOW • 5 points"],
+["3rd","AZLIN SHEZA (9F)","RED • 3 points"]
+]
+},
+
+{
+id:33,
+name:"നാടോടിനൃത്തം (സിംഗിൾ) HS",
+cat:"On Stage",
+places:[
+["1st","SIVAPRIYA SHIJU (10B)","RED • 5 points"],
+["2nd","SREELAKSHMI .P (10F)","RED • 3 points"],
+["3rd","SANA FATHIMA (8D)","RED • 1 point"]
+]
+},
+
+{
+id:34,
+name:"നാടോടിനൃത്തം (GROUP) UP",
+cat:"On Stage",
+group:true,
+places:[
+["1st","ARDRA PS (6E)","BLUE • 10 points"],
+["2nd","KAVYA KAMAL (7A)","RED • 5 points"],
+["3rd","ESHA NASRIN K (7F)","GREEN • 3 points"]
+]
+},
+
+{
+id:35,
+name:"തിരുവാതിര HS",
+cat:"On Stage",
+group:true,
+places:[
+["1st","NISHIKANTHA RAJESH (9F)","RED • 10 points"],
+["2nd","VRINDA KALESH (9D)","YELLOW • 5 points"],
+["3rd","MALAVIKA (10E)","BLUE • 3 points"]
+]
+},
+
+{
+id:36,
+name:"നാടോടിനൃത്തം (സിംഗിൾ) HSS",
+cat:"On Stage",
+places:[
+["1st","ARYANANDA KJ","BLUE • 5 points"],
+["2nd","MAYA MOHANAN","GREEN • 3 points"]
+]
+},
+
+{
+id:37,
+name:"OPPANA HSS",
+cat:"On Stage",
+group:true,
+places:[
+["","RAFA","BLUE • 10 points"],
+["","NEDHA FATHIMA","GREEN • 5 points"]
+]
+},
+
+{
+id:38,
+name:"മാപ്പിളപ്പാട്ട് HSS ആൺ",
+cat:"On Stage",
+places:[
+["","SHANUL HAMEED","GREEN • 5 points"],
+["","RINAN MUHAMMED","BLUE • 3 points"]
+]
+},
+
+{
+id:39,
+name:"മാപ്പിളപ്പാട്ട് HSS പെൺ",
+cat:"On Stage",
+places:[
+["","ANSHA FATHIMA","YELLOW • 5 points"],
+["","SAJA NASRIN","RED • 3 points"]
 ]
 }
 ];
@@ -1014,23 +1147,30 @@ places:[
 
 const upcoming = [
 
-"ചിത്രരചന എണ്ണച്ചായം — HS",
-"ചിത്രരചന എണ്ണച്ചായം — HSS",
-"ശാസ്ത്രീയ സംഗീതം ആൺ — HS",
-"ശാസ്ത്രീയ സംഗീതം പെൺ — HS",
-"ശാസ്ത്രീയ സംഗീതം ആൺ — HSS",
-"ശാസ്ത്രീയ സംഗീതം പെൺ — HSS",
-"കഥകളിസംഗീതം ആൺ/പെൺ",
+"ഉപന്യാസം ഇംഗ്ലീഷ് HS",
+"പദ്യംചൊല്ലൽ അറബിക് UP",
+"പദ്യംചൊല്ലൽ അറബിക് HS",
+"ശാസ്ത്രീയ സംഗീതം UP",
+"ശാസ്ത്രീയ സംഗീതം ആൺ HS",
+"ശാസ്ത്രീയ സംഗീതം പെൺ HS",
 "ലളിതഗാനം UP",
 "ലളിതഗാനം HS ആൺ",
 "ലളിതഗാനം HS പെൺ",
+"മോണോ ആക്റ്റ് UP",
+"മോണോ ആക്റ്റ് HS ആൺ",
+"മോണോ ആക്റ്റ് HS പെൺ",
+"നാടോടിനൃത്തം UP",
+"ദേശഭക്തിഗാനം UP",
+"ദേശഭക്തിഗാനം HS",
+"നാടൻപാട്ട് HS",
+"വഞ്ചിപ്പാട്ട് HSS",
+"ചിത്രരചന എണ്ണച്ചായം — HS",
+"ചിത്രരചന എണ്ണച്ചായം — HSS",
+"ശാസ്ത്രീയ സംഗീതം ആൺ — HSS",
+"ശാസ്ത്രീയ സംഗീതം പെൺ — HSS",
+"കഥകളിസംഗീതം ആൺ/പെൺ",
 "ലളിതഗാനം HSS ആൺ",
 "ലളിതഗാനം HSSപെൺ",
-"മാപ്പിളപ്പാട്ട് UP",
-"മാപ്പിളപ്പാട്ട് HS ആൺ",
-"മാപ്പിളപ്പാട്ട് HS പെൺ",
-"മാപ്പിളപ്പാട്ട് HSS ആൺ",
-"മാപ്പിളപ്പാട്ട് HSS പെൺ",
 "വീണ",
 "വയലിൻ",
 "ഓടക്കുഴൽ",
@@ -1049,42 +1189,19 @@ const upcoming = [
 "കുച്ചുപ്പുടി ആൺ/പെൺ",
 "മോഹിനിയാട്ടം ആൺ/പെൺ",
 "കേരളനടനം ആൺ/പെൺ",
-"പ്രസംഗം മലയാളം UP",
-"പ്രസംഗം മലയാളം HS",
-"പ്രസംഗം ഇംഗ്ലീഷ് UP",
-"പ്രസംഗം ഇംഗ്ലീഷ് HS",
 "പ്രസംഗം ഇംഗ്ലീഷ് HSS",
 "പ്രസംഗം ഹിന്ദി HS",
 "പ്രസംഗം ഹിന്ദി HSS",
-"പദ്യംചൊല്ലൽ മലയാളം HS",
-"പദ്യംചൊല്ലൽ ഇംഗ്ലീഷ് UP",
-"പദ്യംചൊല്ലൽ ഇംഗ്ലീഷ് HS",
 "പദ്യംചൊല്ലൽ ഇംഗ്ലീഷ് HSS",
 "പദ്യംചൊല്ലൽ ഹിന്ദി HSS",
-"പദ്യംചൊല്ലൽ അറബിക് UP",
-"പദ്യംചൊല്ലൽ അറബിക് HS",
 "പദ്യംചൊല്ലൽ അറബിക് HSS",
-"മോണോ ആക്ട് UP",
-"മോണോ ആക്ട് HS ആൺ",
-"മോണോ ആക്ട് HS പെൺ",
-"മോണോ ആക്ട് HSS ആൺ",
-"മോണോ ആക്ട് HSS പെൺ",
-"മിമിക്രി HS",
+"മോണോ ആക്റ്റ് HSS ആൺ",
+"മോണോ ആക്റ്റ് HSS പെൺ",
 "മിമിക്രി HSS",
-"കഥാപ്രസംഗം UP",
-"കഥാപ്രസംഗം HS",
 "കഥാപ്രസംഗം HSS",
-"നാടോടിനൃത്തം UP",
-"ദേശഭക്തിഗാനം UP",
-"ദേശഭക്തിഗാനം HS",
 "ദേശഭക്തിഗാനം HSS",
-"സംഘഗാനം UP",
-"സംഘഗാനം HS",
 "സംഘഗാനം HSS",
-"നാടൻപാട്ട് HS",
 "നാടൻപാട്ട് HSS",
-"നാടോടി നൃത്തം (സിംഗിൾ) UP",
-"നാടോടിനൃത്തം (സിംഗിൾ) HSS",
 "പരിചമുട്ട് കളി",
 "പൂരക്കളി",
 "കോൽക്കളി",
@@ -1101,8 +1218,16 @@ const upcoming = [
 "മലപ്പുലയ ആട്ടം",
 "പളിയ നൃത്തം",
 "മംഗലം കളി",
-"പണിയനൃത്തം (വട്ടക്കളി/കമ്പക്കളി)"
+"പണിയനൃത്തം (വട്ടക്കളി/കമ്പക്കളി)",
+"അക്ഷരശ്ലോകം HS",
+"കാവ്യകേളി HS",
+"ഉപന്യാസം ഹിന്ദി HS"
 
+];
+
+const cancelled = [
+"മിമിക്രി HS",
+"കഥാപ്രസംഗം UP"
 ];
 
 
@@ -1110,81 +1235,42 @@ const upcoming = [
    PROGRAM LOGIC
 ========================= */
 
-const completedNames = new Set(
-  completed.map(x => x.name.trim().toLowerCase())
-);
-
-const filteredUpcoming = upcoming.filter(
-  name => !completedNames.has(name.trim().toLowerCase())
-);
-
 const data=[
   ...completed.map(x=>({...x,status:"done"})),
-  ...filteredUpcoming.map(
+  ...upcoming.map(
     (name,i)=>({
       id:100+i,
       name,
       cat:"On/Off Stage",
       status:"up"
     })
+  ),
+  ...cancelled.map(
+    (name,i)=>({
+      id:300+i,
+      name,
+      cat:"On/Off Stage",
+      status:"cancel"
+    })
   )
 ];
+
+
+/* PARTICIPANT DETAILS (shown inside program details) */
+const participants={
+  "ചിത്രരചന ജലച്ചായം UP":["Sana — 5D — GREEN (A)","Kavya Kamal — 7D — RED (B)","Abhishma P.S — 7E — GREEN (C)"],
+  "ചിത്രരചന ജലച്ചായം HS":["Aiswarya P.D — GREEN (A)"],
+  "മോണോ ആക്റ്റ് UP":["Dileep P — 7D — RED","Nisar PK — 6D — RED"],
+  "മോണോ ആക്റ്റ് HS ആൺ":["10E — GREEN","8G — RED"],
+  "മോണോ ആക്റ്റ് HS പെൺ":["10E — GREEN","8G — RED"],
+  "മോണോ ആക്റ്റ് HSS ആൺ":["Al Aiman — C2 — BLUE"]
+};
 
 const grid=document.getElementById("grid");
 const search=document.getElementById("search");
 const details=document.getElementById("details");
 
 let filter="all";
-
-
-function updateGroupRanking(){
-
-  const totals={GREEN:0,BLUE:0,RED:0,YELLOW:0};
-  const rankPoints={"1st":5,"2nd":3,"3rd":1};
-
-  completed.forEach(x=>{
-    x.places.forEach(p=>{
-      const rank=(p[0]||"").trim();
-      const house=(p[2]||"").split(" • ")[0].trim();
-
-      if(
-        Object.prototype.hasOwnProperty.call(totals,house) &&
-        Object.prototype.hasOwnProperty.call(rankPoints,rank)
-      ){
-        totals[house]+=rankPoints[rank];
-      }
-    });
-  });
-
-  const order=Object.entries(totals).sort((a,b)=>b[1]-a[1]);
-  const medals=["🥇","🥈","🥉",""];
-  const ranking=document.getElementById("groupRanking");
-
-  ranking.innerHTML=order.slice(0,3).map((item,i)=>`
-    <div class="card">
-      <span class="tag ${i===0?"done":""}">${medals[i]} ${i+1} GROUP</span>
-      <h3>${item[0]}</h3>
-      <p><strong style="font-size:30px">${item[1]} points</strong></p>
-    </div>
-  `).join("");
-
-  const fourth=order[3];
-  document.getElementById("fourthGroup").textContent=
-    fourth ? `4th: ${fourth[0]} — ${fourth[1]} points.` : "";
-
-  // Update the main Current House Score cards too.
-  const scoreCards=document.querySelectorAll("#score .score");
-  order.forEach((item,i)=>{
-    if(scoreCards[i]){
-      const strong=scoreCards[i].querySelector("strong");
-      const span=scoreCards[i].querySelector("span");
-      if(strong) strong.textContent=item[1];
-      if(span) span.textContent=`${item[0]} • ${i+1}${i===0?"st":i===1?"nd":i===2?"rd":"th"}`;
-    }
-  });
-}
-
-updateGroupRanking();
 
 
 function render(){
@@ -1212,7 +1298,7 @@ function render(){
           ${
             x.status==="done"
             ?"✅ COMPLETED"
-            :"⏳ UPCOMING"
+            :x.status==="cancel"?"❌ CANCELLED":"⏳ UPCOMING"
           }
 
         </span>
@@ -1222,8 +1308,8 @@ function render(){
         <p>
           ${
             x.status==="done"
-            ?"Completed — tap to view"
-            :"Program name only — result not yet available"
+            ?"Result available — tap to view"
+            :x.status==="cancel"?"ഈ ഇനം cancel ചെയ്തു":"Program name only — result not yet available"
           }
         </p>
 
@@ -1263,17 +1349,16 @@ function showDetails(x){
 
   details.classList.add("show");
 
-  if(x.status==="up"){
+  if(x.status!=="done"){
 
     details.innerHTML=`
 
       <h3>
-        ⏳ ${x.name}
+        ${x.status==="cancel"?"❌":"⏳"} ${x.name}
       </h3>
 
       <p style="color:var(--muted)">
-        ഈ പരിപാടിയുടെ result PDF-ൽ ഇപ്പോൾ നൽകിയിട്ടില്ല.
-        Result update ചെയ്യുമ്പോൾ ഇവിടെ names/points ചേർക്കാം.
+        ${x.status==="cancel"?"ഈ ഇനം cancel ചെയ്തിരിക്കുന്നു.":"ഈ പരിപാടിയുടെ result ഇപ്പോൾ ലഭ്യമല്ല. Result വരുമ്പോൾ ഇവിടെ names/points ചേർക്കാം."}
       </p>
 
     `;
@@ -1322,6 +1407,11 @@ function showDetails(x){
 
   }
 
+  const pl=participants[x.name.trim()];
+  if(pl){
+    details.innerHTML+=`<h4 style="margin:22px 0 0">📋 Participants</h4><div class="podium">${pl.map(t=>`<div class="person"><b>${t}</b></div>`).join("")}</div>`;
+  }
+
   details.scrollIntoView({
     behavior:"smooth",
     block:"nearest"
@@ -1360,6 +1450,32 @@ search.oninput=render;
 
 render();
 
+
+
+/* HOUSE SCORES (auto-calculated) */
+(function(){
+  const t={GREEN:0,RED:0,BLUE:0,YELLOW:0};
+  completed.forEach(p=>p.places.forEach(r=>{
+    const m=r[2].match(/^(\w+) • (\d+) point/);
+    if(m&&m[1] in t)t[m[1]]+=+m[2];
+  }));
+  const order=Object.entries(t).sort((a,b)=>b[1]-a[1]);
+  const ord=["1st","2nd","3rd","4th"],medal=["🥇","🥈","🥉","4️⃣"];
+  const col={GREEN:"--green",RED:"--red",BLUE:"--blue",YELLOW:"--yellow"};
+  document.getElementById("scoreGrid").innerHTML=order.map((o,i)=>
+    `<div class="score${i===0?" first":""}">${i===0?'<div class="crown">👑</div>':""}<strong>${o[1]}</strong><span>${o[0]} • ${ord[i]}</span></div>`).join("");
+  document.getElementById("rankGrid").innerHTML=order.map((o,i)=>
+    `<div class="card"><span class="tag ${i===0?"done":""}">${medal[i]} ${ord[i].toUpperCase()} GROUP</span><h3>${o[0]}</h3><p><strong style="font-size:30px;color:var(${col[o[0]]})">${o[1]} points</strong></p></div>`).join("");
+})();
+
+/* hide gallery until a real photo is added */
+(function(){
+  const img=document.querySelector(".photo-card img");
+  if(img&&img.getAttribute("src").includes("PASTE_YOUR_PHOTO")){
+    document.getElementById("photos").style.display="none";
+    const l=document.querySelector('a[href="#photos"]'); if(l)l.style.display="none";
+  }
+})();
 
 /* =========================
    PHOTO VIEWER
